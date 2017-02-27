@@ -6,6 +6,25 @@ for word in file:
     word = word.strip()
     words[word] = list(word)
 
+"""
+check implements depth first search. it checks the given character from grid
+against a list of words and once it finds a match it investigates further by
+looping through the remaining characters and checks the immediately surrounding 
+characters in the grid to see if they correspond to the current character and
+breaks if they don't, moving on to the next word.
+
+
+input:
+    words: a dictionary where key = a word and value = char list of that word.
+    grid: a 2D list of characters
+    r: the starting row
+    c: the starting column
+
+output:
+    explored_words: a dictionary, where key = a word and value = the corresponding
+                    coordinates of each letter.
+
+"""
 
 def check(words, grid, r, c):
     explored_words = defaultdict(list)
@@ -20,6 +39,12 @@ def check(words, grid, r, c):
             x = -1
             y = -1
             newPos = False
+            # The cool bit. there are a maximum of 8 positons surrounding any given
+            # position. the following loop checks every single one. However, python
+            # is weird and allows for negative indexes. so we have to check against
+            # that. We also check to see if the positions has been visited, and if
+            # the character at that position is equal to the current char in the word.
+            
             for i in range(8):
                 if i > 0 and i < 3:
                     x = x + 1
@@ -39,6 +64,8 @@ def check(words, grid, r, c):
                         break
                 except IndexError:
                     continue
+            # if it completes without finding the next letter in the word, the path
+            # is whiped and we move on to the next word.
             if not newPos:
                 visited = []
                 break
